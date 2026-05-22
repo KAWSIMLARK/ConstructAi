@@ -1,11 +1,11 @@
-# Concierge Construction 🏗️
+# ConstructAi
 
 Assistant expert en construction pour le Québec et le Canada — interface conversationnelle similaire à Claude/ChatGPT.
 
 ## Fonctionnalités
 
 - Interface chat en temps réel (streaming SSE)
-- Expertise CNB 2020, Code de construction du Québec, Code civil du Québec
+- Expertise CNB 2025, CNÉB 2025, CNP 2025, CNPI 2025, CCQ, Code civil du Québec
 - Historique des conversations (localStorage)
 - Rendu Markdown avec coloration syntaxique
 - Thème sombre, accent ambré (orange construction)

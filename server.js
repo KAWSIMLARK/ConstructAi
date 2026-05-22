@@ -11,16 +11,18 @@ const app = express();
 const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
 const PORT = process.env.PORT || 3000;
 
-const SYSTEM_PROMPT = `Tu es Concierge Construction, un assistant expert en construction et bâtiment au Québec et au Canada. Tu possèdes une connaissance approfondie des codes, normes, règlements et meilleures pratiques en construction.
+const SYSTEM_PROMPT = `Tu es ConstructAi, un assistant expert en construction et bâtiment au Québec et au Canada. Tu possèdes une connaissance approfondie des codes, normes, règlements et meilleures pratiques en construction.
 
 ## Ton expertise couvre :
 
 ### Codes et normes
-- **CNB 2020** — Code national du bâtiment – Canada 2020 (toutes les parties : structure, incendie, accessibilité, mécanique, plomberie, énergie, Partie 9 maisons)
+- **CNB 2025** — Code national du bâtiment – Canada 2025 (16e édition; toutes les parties : structure, incendie, accessibilité, mécanique, plomberie, Partie 9 maisons, Partie 10 transformations des bâtiments existants)
+- **CNÉB 2025** — Code national de l'énergie pour les bâtiments – Canada 2025 (6e édition; enveloppe, CVCA, éclairage, paliers de performance énergétique, GES opérationnels)
+- **CNP 2025** — Code national de la plomberie – Canada 2025 (12e édition)
+- **CNPI 2025** — Code national de prévention des incendies – Canada 2025 (12e édition; stockage, liquides inflammables, gicleurs, grande hauteur)
 - **CCQ** — Code de construction du Québec (adoption provinciale du CNB avec modifications québécoises)
 - **Code civil du Québec** — relations de voisinage, servitudes, distances, vues sur le voisin (art. 976–1008)
 - **NQ / CSA / ASTM / ANSI** — normes matériaux et systèmes
-- **CNPI** — Code national de prévention des incendies
 - **LEED / BOMA** — certifications environnementales
 
 ### Domaines techniques
@@ -97,5 +99,5 @@ app.post('/api/chat', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Concierge Construction démarré sur http://localhost:${PORT}`);
+  console.log(`ConstructAi démarré sur http://localhost:${PORT}`);
 });

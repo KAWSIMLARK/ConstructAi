@@ -3,17 +3,36 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Concierge Construction</title>
+  <title>ConstructAi</title>
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
 </head>
 <body>
+  <!-- SVG logo definition (reused via <use>) -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+      <symbol id="ccLogo" viewBox="0 0 64 64">
+        <!-- Top ridge cap -->
+        <rect x="27" y="8" width="10" height="15" rx="2" fill="#f97316"/>
+        <!-- Helmet dome -->
+        <path d="M 11 44 Q 11 19 32 19 Q 53 19 53 44 Z" fill="#f97316"/>
+        <!-- Brim -->
+        <path d="M 7 48 Q 7 44 11 44 L 53 44 Q 57 44 57 48 L 57 50 Q 57 54 53 54 L 11 54 Q 7 54 7 50 Z" fill="#f97316"/>
+        <!-- Air vent slits (dark cut-outs) -->
+        <rect x="22" y="26" width="3.5" height="14" rx="1.5" fill="#0a0a0a"/>
+        <rect x="38.5" y="26" width="3.5" height="14" rx="1.5" fill="#0a0a0a"/>
+        <!-- White brim strap line -->
+        <line x1="14" y1="49" x2="50" y2="49" stroke="#ffffff" stroke-width="2" stroke-linecap="round"/>
+      </symbol>
+    </defs>
+  </svg>
+
   <!-- Sidebar -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-header">
       <div class="brand">
-        <span class="brand-icon">🏗️</span>
-        <span class="brand-name">Concierge<br>Construction</span>
+        <svg class="brand-icon" viewBox="0 0 64 64" aria-hidden="true"><use href="#ccLogo"/></svg>
+        <span class="brand-name">ConstructAi</span>
       </div>
       <button class="btn-new-chat" id="btnNewChat" title="Nouvelle conversation">
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -28,7 +47,7 @@
     <div class="sidebar-footer">
       <div class="doc-badge">
         <span class="badge-dot"></span>
-        CNB 2020 · CCQ · Code civil QC
+        CNB · CNÉB · CNP · CNPI 2025
       </div>
       <div class="model-badge">claude-sonnet-4-6</div>
     </div>
@@ -44,23 +63,9 @@
 
     <!-- Welcome screen -->
     <section class="welcome" id="welcome">
-      <div class="welcome-icon">🏗️</div>
-      <h1 class="welcome-title">Concierge Construction</h1>
+      <svg class="welcome-icon" viewBox="0 0 64 64" aria-hidden="true"><use href="#ccLogo"/></svg>
+      <h1 class="welcome-title">ConstructAi</h1>
       <p class="welcome-sub">Assistant expert en construction — Québec &amp; Canada</p>
-      <div class="suggestions">
-        <button class="suggestion-btn" data-q="Quelle est la distance minimale entre une fenêtre et la limite de propriété voisine au Québec?">
-          🪟 Distance fenêtre / voisin
-        </button>
-        <button class="suggestion-btn" data-q="Quelles sont les exigences d'isolation thermique pour les murs extérieurs selon le CNB 2020 en zone climatique 6?">
-          🌡️ Isolation murs CNB 2020
-        </button>
-        <button class="suggestion-btn" data-q="Quels sont les éléments obligatoires d'un devis de construction au Québec?">
-          📋 Devis de construction QC
-        </button>
-        <button class="suggestion-btn" data-q="Quelles sont les charges de neige à prévoir pour une toiture plate à Montréal selon le CNB 2020?">
-          ❄️ Charges de neige Montréal
-        </button>
-      </div>
     </section>
 
     <!-- Messages -->

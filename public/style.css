@@ -63,8 +63,9 @@ body { display: flex; }
 .brand { display: flex; align-items: center; gap: 10px; }
 
 .brand-icon {
-  font-size: 22px;
-  line-height: 1;
+  width: 30px;
+  height: 30px;
+  flex-shrink: 0;
 }
 
 .brand-name {
@@ -186,7 +187,11 @@ body { display: flex; }
   animation: fadeIn 0.4s ease;
 }
 
-.welcome-icon { font-size: 48px; }
+.welcome-icon {
+  width: 80px;
+  height: 80px;
+  filter: drop-shadow(0 0 24px rgba(249, 115, 22, 0.3));
+}
 
 .welcome-title {
   font-size: 24px;
@@ -264,7 +269,11 @@ body { display: flex; }
 }
 
 .message.assistant .message-avatar {
-  background: linear-gradient(135deg, var(--accent) 0%, #92400e 100%);
+  background: transparent;
+}
+.message.assistant .message-avatar .avatar-svg {
+  width: 32px;
+  height: 32px;
 }
 
 .message.user .message-avatar {

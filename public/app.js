@@ -103,7 +103,7 @@ async function sendMessage() {
   typingEl.className = 'message assistant';
   typingEl.id = typingId;
   typingEl.innerHTML = `
-    <div class="message-avatar">🏗️</div>
+    <div class="message-avatar"><svg viewBox="0 0 64 64" class="avatar-svg"><use href="#ccLogo"/></svg></div>
     <div class="message-body">
       <div class="typing-indicator">
         <div class="typing-dot"></div>
@@ -181,7 +181,9 @@ async function sendMessage() {
 function appendMessage(role, text) {
   const el = document.createElement('div');
   el.className = `message ${role}`;
-  const avatar = role === 'user' ? '👤' : '🏗️';
+  const avatar = role === 'user'
+    ? '👤'
+    : '<svg viewBox="0 0 64 64" class="avatar-svg"><use href="#ccLogo"/></svg>';
   const content = role === 'user'
     ? `<div class="message-content">${escapeHtml(text)}</div>`
     : `<div class="message-content">${marked.parse(text)}</div>`;
@@ -203,7 +205,7 @@ function createAssistantMessage() {
   const el = document.createElement('div');
   el.className = 'message assistant';
   el.innerHTML = `
-    <div class="message-avatar">🏗️</div>
+    <div class="message-avatar"><svg viewBox="0 0 64 64" class="avatar-svg"><use href="#ccLogo"/></svg></div>
     <div class="message-body">
       <div class="message-content"></div>
     </div>`;
