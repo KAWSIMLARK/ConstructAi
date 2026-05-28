@@ -1,5 +1,5 @@
 // Service worker minimal — habilite l'installation PWA et un cache offline léger.
-const CACHE_NAME = 'constructai-v1';
+const CACHE_NAME = 'constructai-v2';
 const CORE_ASSETS = [
   '/',
   '/index.html',
