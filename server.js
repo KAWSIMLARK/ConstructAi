@@ -1,5 +1,5 @@
 import express from 'express';
-import Anthropic from '@anthropic-ai/sdk';
+import { GoogleGenAI } from '@google/genai';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
@@ -8,8 +8,9 @@ dotenv.config();
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const app = express();
-const client = new Anthropic({ apiKey: process.env.ANTHROPIC_API_KEY });
+const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 const PORT = process.env.PORT || 3000;
+const MODEL = 'gemini-2.5-flash';
 
 const SYSTEM_PROMPT = `Tu es ConstructAi, un assistant expert en construction et bâtiment au Québec et au Canada. Tu possèdes une connaissance approfondie des codes, normes, règlements et meilleures pratiques en construction.
 
@@ -49,6 +50,14 @@ const SYSTEM_PROMPT = `Tu es ConstructAi, un assistant expert en construction et
 app.use(express.json());
 app.use(express.static(join(__dirname, 'public')));
 
+// Convertit les messages {role: 'user'|'assistant', content: '...'} vers le format Gemini
+function toGeminiContents(messages) {
+  return messages.map((m) => ({
+    role: m.role === 'assistant' ? 'model' : 'user',
+    parts: [{ text: m.content }],
+  }));
+}
+
 app.post('/api/chat', async (req, res) => {
   const { messages } = req.body;
 
@@ -63,35 +72,30 @@ app.post('/api/chat', async (req, res) => {
   res.flushHeaders();
 
   try {
-    const stream = client.messages.stream({
-      model: 'claude-sonnet-4-6',
-      max_tokens: 16000,
-      system: [
-        {
-          type: 'text',
-          text: SYSTEM_PROMPT,
-          cache_control: { type: 'ephemeral' },
-        },
-      ],
-      messages,
+    const stream = await ai.models.generateContentStream({
+      model: MODEL,
+      contents: toGeminiContents(messages),
+      config: {
+        systemInstruction: SYSTEM_PROMPT,
+        temperature: 0.7,
+        maxOutputTokens: 8192,
+      },
     });
 
-    for await (const event of stream) {
-      if (
-        event.type === 'content_block_delta' &&
-        event.delta.type === 'text_delta'
-      ) {
+    for await (const chunk of stream) {
+      const text = chunk.text;
+      if (text) {
         res.write(
-          `data: ${JSON.stringify({ type: 'text', content: event.delta.text })}\n\n`
+          `data: ${JSON.stringify({ type: 'text', content: text })}\n\n`
         );
       }
     }
 
     res.write(`data: ${JSON.stringify({ type: 'done' })}\n\n`);
   } catch (err) {
-    console.error('Erreur API Anthropic:', err.message);
+    console.error('Erreur API Gemini:', err?.message || err);
     res.write(
-      `data: ${JSON.stringify({ type: 'error', message: err.message })}\n\n`
+      `data: ${JSON.stringify({ type: 'error', message: err?.message || 'Erreur inconnue' })}\n\n`
     );
   } finally {
     res.end();
@@ -99,5 +103,9 @@ app.post('/api/chat', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`ConstructAi démarré sur http://localhost:${PORT}`);
+  console.log(`ConstructAi (Gemini) démarré sur http://localhost:${PORT}`);
+  if (!process.env.GEMINI_API_KEY) {
+    console.warn('⚠️  GEMINI_API_KEY manquante — créez un fichier .env avec votre clé.');
+    console.warn('   Obtenir une clé gratuite : https://aistudio.google.com/app/apikey');
+  }
 });
